@@ -1,10 +1,10 @@
 {% extends "page.html" %}
 
 {% block content %}
-    <h2>Agendamentos</h2>
-    <ul>
+    <h5>Agendamentos</h5>
+    <ul class="list-group">
         {% for evento in eventos %}
-            <li>{{ evento.titulo }} - {{ evento.get_data_evento }}</li>
+            <li class="list-group-item">{{ evento.titulo }} - {{ evento.get_data_evento }}</li>
         {% endfor %}
     </ul>
 {% endblock %}
