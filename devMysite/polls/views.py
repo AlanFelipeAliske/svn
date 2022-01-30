@@ -6,15 +6,18 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 
-#def index(request):
+# def index(request):
 #    return redirect('/polls/agenda/')
+
 
 def login_user(request):
     return render(request, 'login.html')
 
+
 def logout_user(request):
     logout(request)
     return redirect('/')
+
 
 def submit_login(request):
     if request.POST:
@@ -29,26 +32,44 @@ def submit_login(request):
         return redirect('/')
 
 
-@login_required(login_url = '/login/')
+@login_required(login_url='/login/')
 def lista_eventos(request):
     #usuario = request.user
-    evento = Evento.objects.all()    #filter(usuario=usuario)
-    dados = {'eventos' :evento}
+    evento = Evento.objects.all()  # filter(usuario=usuario)
+    dados = {'eventos': evento}
     return render(request, 'agenda.html', dados)
 
 
-@login_required(login_url = '/login/')
+@login_required(login_url='/login/')
 def evento(request):
-    return render (request, 'evento.html')
+    id_evento = request.GET.get('id')
+    dados = {}
+    if id_evento:
+        dados['evento'] = Evento.objects.get(id=id_evento)
+    return render(request, 'evento.html', dados)
 
 
-@login_required(login_url = '/login/')
+@login_required(login_url='/login/')
 def submit_evento(request):
     if request.POST:
         titulo = request.POST.get('titulo')
         data_evento = request.POST.get('data_evento')
-        descricao = request.POST.get('descricao')
+        descrição = request.POST.get('descrição')
         usuario = request.user
-        Evento.objects.create(titulo=titulo, data_evento=data_evento, descricao=descricao, usuario=usuario)
+        id_evento = request.POST.get('id_evento')
+        if id_evento:
+            Evento.objects.filter(id=id_evento).update(titulo=titulo, data_evento=data_evento, descrição=descrição,)
+        else:
+            Evento.objects.create(
+                titulo=titulo, data_evento=data_evento, descrição=descrição, usuario=usuario)
 
+    return redirect('/')
+
+
+@login_required(login_url='/login/')
+def delete_evento(request, id_evento):
+    usuario = request.user
+    evento = Evento.objects.get(id=id_evento)
+    if usuario == evento.usuario:
+        evento.delete()
     return redirect('/')
