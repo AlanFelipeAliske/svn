@@ -20,7 +20,7 @@ class Evento(models.Model):
         return self.titulo
 
     def get_data_evento(self):
-        return self.data_evento.strftime('%d/%m/%Y')
+        return self.data_evento.strftime('%d/%m/%y')
 
     def get_data_input_evento(self):
-        return self.data_evento.strftime('%y-%m-%d')
+        return self.data_evento.strftime('%d-%m-%y')
