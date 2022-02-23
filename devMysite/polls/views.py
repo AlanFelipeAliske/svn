@@ -60,7 +60,8 @@ def submit_evento(request):
         usuario = request.user
         id_evento = request.POST.get('id_evento')
         if id_evento:
-            Evento.objects.filter(id=id_evento).update(titulo=titulo, data_evento=data_evento, descrição=descrição,)
+            Evento.objects.filter(id=id_evento).update(
+                titulo=titulo, data_evento=data_evento, descrição=descrição,)
         else:
             Evento.objects.create(
                 titulo=titulo, data_evento=data_evento, descrição=descrição, usuario=usuario)

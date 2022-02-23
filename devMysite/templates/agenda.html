@@ -3,12 +3,25 @@
 {% block content %}
 
 <h2 class="mb-4">Agendamentos</h2>
-<ul class="list-group">
+
+<div class="row mb-4">
+
     {% for evento in eventos %}
-    <li class="list-group-item">{{ evento.titulo }} - {{ evento.get_data_evento }}
-        ( <a href="evento/?id={{ evento.id }}">Editar</a> / <a href="evento/delete/{{ evento.id }}/">Excluir</a> )
-    </li>
+
+    <div class="col-sm-6 mb-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">{{ evento.titulo }}</h5>
+                <p class="card-text">{{ evento.descrição }}</p>
+                <p class="card-text"><small class="text-muted">{{ evento.get_data_evento }}</small></p>
+                <p class="card-text"><small class="text-muted">Data da criação do evento {{ evento.hora_criacao }}</small></p>
+                <a href="evento/?id={{ evento.id }}" class="btn btn-primary">Editar</a>
+                <a href="evento/delete/{{ evento.id }}/" class="btn btn-danger">Excluir</a>
+
+            </div>
+        </div>
+    </div>
     {% endfor %}
-</ul>
+</div>
 
 {% endblock %}
